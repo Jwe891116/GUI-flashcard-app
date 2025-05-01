@@ -16,5 +16,7 @@ router.post('/edit-flashcard', prepareEditFlashcard);
 router.delete('/flashcards/:id', deleteFlashcard);
 router.put('/flashcards/:id', updateFlashcard);
 router.get('/study', startStudySession);
+router.get('/study/next', startStudySession); 
+router.get('/study/previous', startStudySession);
 
 export default router;

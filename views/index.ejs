@@ -1,4 +1,4 @@
-<%- include('partials/header', { 
+<%- include('partials/header', {
   title: typeof title !== 'undefined' ? title : 'Flashcard App',
 }) %>
 
@@ -22,30 +22,31 @@
           </div>
         </div>
       </div>
-      
       <div class="study-controls">
-        <form action="/study/next" method="GET">
+        <div class="navigation-row">
           <% if (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') { %>
-            <input type="hidden" name="category" value="<%= categoryFilter %>">
+            <a href="/study/previous?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
+            <a href="/study/next?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
+          <% } else { %>
+            <a href="/study/previous?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
+            <a href="/study/next?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
           <% } %>
-          <input type="hidden" name="currentIndex" value="<%= currentCardIndex %>">
-          <button type="submit">Next Card</button>
-        </form>
-        <a href="/" class="study-exit">Exit Study Mode</a>
+        </div>
+        <div class="exit-row">
+          <a href="/" class="btn exit-study-btn">Exit Study Mode</a>
+        </div>
       </div>
     </div>
   <% } %>
-  
-  <!-- Create New Flashcard Section -->
+
   <section class="create-flashcard">
     <h2>Create New Flashcard</h2>
     <form action="/flashcards" method="POST" class="flashcard-form <%= (errors && errors.length > 0) ? 'submitted' : '' %>">
-      <!-- Top Row - Question and Answer -->
       <div class="form-top-row">
         <div class="form-group">
           <label for="front">Question/Term</label>
-          <textarea 
-            name="front" 
+          <textarea
+            name="front"
             placeholder="Enter your question or term"
             class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
           ><%= typeof front !== 'undefined' ? front : '' %></textarea>
@@ -57,8 +58,8 @@
         </div>
         <div class="form-group">
           <label for="back">Answer/Definition</label>
-          <textarea 
-            name="back" 
+          <textarea
+            name="back"
             placeholder="Enter the answer or definition"
             class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
           ><%= typeof back !== 'undefined' ? back : '' %></textarea>
@@ -70,13 +71,12 @@
         </div>
       </div>
 
-      <!-- Middle Row - Category and Difficulty -->
       <div class="form-middle-row">
         <div class="form-group">
           <label for="category">Category</label>
-          <input 
-            type="text" 
-            name="category" 
+          <input
+            type="text"
+            name="category"
             placeholder="e.g. JavaScript, Biology"
             class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
             value="<%= typeof category !== 'undefined' ? category : '' %>"
@@ -97,20 +97,15 @@
         </div>
       </div>
 
-      <!-- Bottom Row - Submit Button -->
       <div class="form-bottom-row">
-        <button type="submit" class="btn add-flashcard-btn">
-          <i class="fas fa-plus"></i> Add Flashcard
-        </button>
+        <button type="submit" class="btn add-flashcard-btn">Add Flashcard</button>
       </div>
     </form>
   </section>
 
-  <!-- Quick Actions Section -->
   <div class="quick-actions">
-    <!-- Search Card -->
     <div class="action-card">
-      <h3><i class="fas fa-search"></i> Search Flashcards</h3>
+      <h3>Search Flashcards</h3>
       <form action="/" method="GET">
         <div class="form-group">
           <input type="text" name="search" placeholder="Search terms or answers..." value="<%= typeof search !== 'undefined' ? search : '' %>">
@@ -124,9 +119,8 @@
       </form>
     </div>
 
-    <!-- Filter Card -->
     <div class="action-card">
-      <h3><i class="fas fa-filter"></i> Filter Flashcards</h3>
+      <h3>Filter Flashcards</h3>
       <form action="/" method="GET">
         <div class="form-group">
           <input type="text" name="category" placeholder="Filter by category" value="<%= typeof categoryFilter !== 'undefined' ? categoryFilter : '' %>">
@@ -140,9 +134,8 @@
       </form>
     </div>
 
-    <!-- Study Mode Card -->
     <div class="action-card">
-      <h3><i class="fas fa-graduation-cap"></i> Study Mode</h3>
+      <h3>Study Mode</h3>
       <form action="/study" method="GET">
         <div class="form-group">
           <input type="text" name="category" placeholder="Specific category (optional)" value="<%= (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') ? categoryFilter : '' %>">
@@ -158,8 +151,8 @@
         <h3>Edit Flashcard</h3>
         <div class="form-group">
           <label for="front">Front</label>
-          <textarea 
-            name="front" 
+          <textarea
+            name="front"
             required
             class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
           ><%= editingFlashcard.front || '' %></textarea>
@@ -171,8 +164,8 @@
         </div>
         <div class="form-group">
           <label for="back">Back</label>
-          <textarea 
-            name="back" 
+          <textarea
+            name="back"
             required
             class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
           ><%= editingFlashcard.back || '' %></textarea>
@@ -184,8 +177,8 @@
         </div>
         <div class="form-group">
           <label for="category">Category</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             name="category"
             class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
             value="<%= editingFlashcard.category || '' %>"
@@ -209,8 +202,7 @@
       </form>
     </div>
   <% } %>
-  
-  <!-- Flashcard Display Section - Only show if searched or filtered -->
+
   <% if ((typeof search !== 'undefined' && search) || (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all')) { %>
     <% if (typeof flashcards !== 'undefined' && flashcards.length === 0) { %>
       <p>No flashcards found matching your criteria.</p>
@@ -275,6 +267,5 @@
     <p>No flashcards found. Create your first flashcard above!</p>
   <% } %>
 </div>
-<br>
 
 <%- include('partials/footer') %>

@@ -143,11 +143,22 @@ export const prepareEditFlashcard = async (req, res) => {
 };
 
 export const startStudySession = async (req, res) => {
-  const { category } = req.query;
+  const { category, currentIndex } = req.query;
+  const isPrevious = req.path.includes('/previous');
+  let newIndex = currentIndex ? parseInt(currentIndex) : 0;
+
   try {
     const flashcards = await getFlashcardsForStudy(category);
+    
     if (flashcards.length === 0) {
       return res.redirect('/?errors=No flashcards found to study');
+    }
+
+    // Handle navigation
+    if (isPrevious) {
+      newIndex = newIndex <= 0 ? flashcards.length - 1 : newIndex - 1;
+    } else {
+      newIndex = newIndex >= flashcards.length - 1 ? 0 : newIndex + 1;
     }
 
     res.render('index', {
@@ -166,10 +177,10 @@ export const startStudySession = async (req, res) => {
       hasPreviousPage: false,
       hasNextPage: false,
       studyMode: true,
-      currentCardIndex: 0
+      currentCardIndex: newIndex
     });
   } catch (err) {
-    console.error("Error starting study session:", err);
+    console.error("Error in study session:", err);
     res.status(500).send("Server Error");
   }
 };
@@ -202,4 +213,4 @@ function validateFlashcardInput(front, back, category) {
   }
 
   return errors;
-}
+};
