@@ -268,12 +268,13 @@
     <% } %>
   <% } else if (typeof flashcards !== 'undefined' && flashcards.length > 0) { %>
     <div class="search-prompt">
-      <p>Use the search or filter above to display flashcards.</p>
-      <p>Currently showing <%= flashcards.length %> flashcards (hidden until searched/filtered).</p>
+      <p>Use the search or filter option above to display flashcards.</p>
+      <p>Currently <%= flashcards.length %> flashcards have been created.</p>
     </div>
   <% } else { %>
     <p>No flashcards found. Create your first flashcard above!</p>
   <% } %>
 </div>
+<br>
 
 <%- include('partials/footer') %>

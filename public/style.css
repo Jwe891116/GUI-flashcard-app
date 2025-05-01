@@ -331,3 +331,9 @@ footer {
   .flashcard-form.submitted .form-group:has(.error-border) {
     margin-bottom: 1.5rem;
   }
+
+  .search-prompt{
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+  }
