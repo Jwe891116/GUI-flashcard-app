@@ -148,40 +148,42 @@ export const startStudySession = async (req, res) => {
   let newIndex = currentIndex ? parseInt(currentIndex) : 0;
 
   try {
-    const flashcards = await getFlashcardsForStudy(category);
-    
-    if (flashcards.length === 0) {
-      return res.redirect('/?errors=No flashcards found to study');
-    }
+      // Handle "All" category case
+      const categoryFilter = (category === 'All' || !category) ? 'all' : category;
+      const flashcards = await getFlashcardsForStudy(categoryFilter);
 
-    // Handle navigation
-    if (isPrevious) {
-      newIndex = newIndex <= 0 ? flashcards.length - 1 : newIndex - 1;
-    } else {
-      newIndex = newIndex >= flashcards.length - 1 ? 0 : newIndex + 1;
-    }
+      if (flashcards.length === 0) {
+          return res.redirect('/?errors=No flashcards found to study');
+      }
 
-    res.render('index', {
-      title: 'Study Mode',
-      flashcards,
-      editingFlashcard: null,
-      errors: null,
-      front: '',
-      back: '',
-      category: '',
-      difficulty: 1,
-      search: '',
-      categoryFilter: category,
-      currentPage: 1,
-      totalPages: 1,
-      hasPreviousPage: false,
-      hasNextPage: false,
-      studyMode: true,
-      currentCardIndex: newIndex
-    });
+      // Handle navigation
+      if (isPrevious) {
+          newIndex = newIndex <= 0 ? flashcards.length - 1 : newIndex - 1;
+      } else {
+          newIndex = newIndex >= flashcards.length - 1 ? 0 : newIndex + 1;
+      }
+
+      res.render('index', {
+          title: 'Study Mode',
+          flashcards,
+          editingFlashcard: null,
+          errors: null,
+          front: '',
+          back: '',
+          category: '',
+          difficulty: 1,
+          search: '',
+          categoryFilter: categoryFilter === 'all' ? 'All' : categoryFilter,
+          currentPage: 1,
+          totalPages: 1,
+          hasPreviousPage: false,
+          hasNextPage: false,
+          studyMode: true,
+          currentCardIndex: newIndex
+      });
   } catch (err) {
-    console.error("Error in study session:", err);
-    res.status(500).send("Server Error");
+      console.error("Error in study session:", err);
+      res.status(500).send("Server Error");
   }
 };
 

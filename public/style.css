@@ -280,11 +280,13 @@ footer {
 
 .flashcard-front {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-size: 30px;
 }
 
 .flashcard-back {
   background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
   transform: rotateY(180deg);
+  font-size: 30px;
 }
 
 .study-controls {

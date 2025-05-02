@@ -36,21 +36,18 @@
                   <p>Click to flip</p>
               </div>
               <div class="flashcard-back">
-                  <h3><%= flashcards[currentCardIndex].back %></h3>
-                  <div class="flashcard-actions">
-                      <form action="/edit-flashcard" method="POST">
-                          <input type="hidden" name="flashcardId" value="<%= flashcards[currentCardIndex].id %>">
-                          <input type="hidden" name="front" value="<%= flashcards[currentCardIndex].front %>">
-                          <input type="hidden" name="back" value="<%= flashcards[currentCardIndex].back %>">
-                          <input type="hidden" name="category" value="<%= flashcards[currentCardIndex].category %>">
-                          <input type="hidden" name="difficulty" value="<%= flashcards[currentCardIndex].difficulty %>">
-                          <button type="submit" class="btn edit-btn">Edit</button>
-                      </form>
-                      <form action="/flashcards/<%= flashcards[currentCardIndex].id %>?_method=DELETE" method="POST">
-                          <button type="submit" class="btn delete-btn">Delete</button>
-                      </form>
-                  </div>
-              </div>
+                <h3>ANSWER</h3>
+                <p><%= flashcards[currentCardIndex].back %></p>
+                <div class="flashcard-actions">
+                    <form action="/edit-flashcard" method="POST">
+                        <input type="hidden" name="flashcardId" value="<%= flashcards[currentCardIndex].id %>">
+                        <input type="hidden" name="front" value="<%= flashcards[currentCardIndex].front %>">
+                        <input type="hidden" name="back" value="<%= flashcards[currentCardIndex].back %>">
+                        <input type="hidden" name="category" value="<%= flashcards[currentCardIndex].category %>">
+                        <input type="hidden" name="difficulty" value="<%= flashcards[currentCardIndex].difficulty %>">
+                    </form>
+                </div>
+            </div>
           </div>
           <div class="study-controls">
               <div class="navigation-row">
@@ -163,14 +160,14 @@
           </form>
       </div>
       <div class="action-card">
-          <h3>Study Mode</h3>
-          <form action="/study" method="GET">
-              <div class="form-group">
-                  <input type="text" name="category" placeholder="Specific category (optional)" value="<%= (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') ? categoryFilter : '' %>">
-              </div>
-              <button type="submit" class="btn study-btn">Start Studying</button>
-          </form>
-      </div>
+        <h3>Study Mode</h3>
+        <form action="/study" method="GET">
+            <div class="form-group">
+                <input type="text" name="category" placeholder="Enter 'All' or a specific category" value="<%= (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') ? categoryFilter : '' %>">
+            </div>
+            <button type="submit" class="btn study-btn">Start Studying</button>
+        </form>
+    </div>
   </div>
 
   <!-- EDIT FLASHCARD SECTION -->
@@ -318,7 +315,6 @@
   <% } else if (typeof flashcards !== 'undefined' && flashcards.length > 0) { %>
       <div class="search-prompt">
           <p>Use the search or filter option above to display flashcards.</p>
-          <p>Currently <%= flashcards.length %> flashcards have been created.</p>
       </div>
   <% } else { %>
       <p class="no-results">No flashcards found. Create your first flashcard above!</p>

@@ -73,10 +73,10 @@ export const removeFlashcard = async (flashcardId) => {
 export const getFlashcardsForStudy = async (category = 'all') => {
   let query = "SELECT * FROM flashcards";
   const params = [];
-  
+
   if (category !== 'all') {
-    query += " WHERE category = $1";
-    params.push(category);
+      query += " WHERE category = $1";
+      params.push(category);
   }
 
   query += " ORDER BY RANDOM()";
