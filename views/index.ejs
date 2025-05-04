@@ -1,324 +1,393 @@
+<!-- Include the header partial with dynamic title -->
 <%- include('partials/header', {
-  title: typeof title !== 'undefined' ? title : 'Flashcard App',
-}) %>
-
-<div class="main-container">
-  <!-- STUDY MODE SECTION -->
-  <% if (typeof studyMode !== 'undefined' && studyMode) { %>
-      <div class="study-container">
-          <div class="flashcard" onclick="this.classList.toggle('flipped')">
-              <div class="flashcard-front">
-                  <% if (flashcards[currentCardIndex].category) { %>
-                      <h4 class="category-header"><%= flashcards[currentCardIndex].category %></h4>
-                  <% } %>
-                  <h3><%= flashcards[currentCardIndex].front %></h3>
-                  <div class="difficulty-container">
-                      <div class="difficulty-icons">
-                          <% for (let i = 1; i <= 5; i++) { %>
-                              <div class="difficulty-icon <%= i <= flashcards[currentCardIndex].difficulty ? 'level-' + flashcards[currentCardIndex].difficulty : '' %>"
-                                   data-level="Level <%= i %>"></div>
-                          <% } %>
-                      </div>
-                      <div class="difficulty-label level-<%= flashcards[currentCardIndex].difficulty %>">
-                          <% if (flashcards[currentCardIndex].difficulty === 1) { %>
-                              Easy
-                          <% } else if (flashcards[currentCardIndex].difficulty === 2) { %>
-                              Moderate
-                          <% } else if (flashcards[currentCardIndex].difficulty === 3) { %>
-                              Medium
-                          <% } else if (flashcards[currentCardIndex].difficulty === 4) { %>
-                              Hard
-                          <% } else { %>
-                              Very Hard
-                          <% } %>
-                      </div>
+    title: typeof title !== 'undefined' ? title : 'Flashcard App', // Default title if not provided
+  }) %>
+  
+  <!-- Main container for all content -->
+  <div class="main-container">
+    <!-- *********************** -->
+    <!-- STUDY MODE SECTION -->
+    <!-- *********************** -->
+    <% if (typeof studyMode !== 'undefined' && studyMode) { %>
+        <div class="study-container">
+            <!-- Interactive flashcard that flips on click -->
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <!-- Front side of flashcard -->
+                <div class="flashcard-front">
+                    <!-- Display category if exists -->
+                    <% if (flashcards[currentCardIndex].category) { %>
+                        <h4 class="category-header"><%= flashcards[currentCardIndex].category %></h4>
+                    <% } %>
+                    <!-- Flashcard question/term -->
+                    <h3><%= flashcards[currentCardIndex].front %></h3>
+                    
+                    <!-- Difficulty visualization -->
+                    <div class="difficulty-container">
+                        <div class="difficulty-icons">
+                            <!-- Render 5 difficulty icons, highlighting up to current difficulty level -->
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <div class="difficulty-icon <%= i <= flashcards[currentCardIndex].difficulty ? 'level-' + flashcards[currentCardIndex].difficulty : '' %>"
+                                     data-level="Level <%= i %>"></div>
+                            <% } %>
+                        </div>
+                        <!-- Text label for difficulty -->
+                        <div class="difficulty-label level-<%= flashcards[currentCardIndex].difficulty %>">
+                            <% if (flashcards[currentCardIndex].difficulty === 1) { %>
+                                Easy
+                            <% } else if (flashcards[currentCardIndex].difficulty === 2) { %>
+                                Moderate
+                            <% } else if (flashcards[currentCardIndex].difficulty === 3) { %>
+                                Medium
+                            <% } else if (flashcards[currentCardIndex].difficulty === 4) { %>
+                                Hard
+                            <% } else { %>
+                                Very Hard
+                            <% } %>
+                        </div>
+                    </div>
+                    <p>Click to flip</p>
+                </div>
+                
+                <!-- Back side of flashcard (answer) -->
+                <div class="flashcard-back">
+                  <h3>ANSWER</h3>
+                  <p><%= flashcards[currentCardIndex].back %></p>
+                  <!-- Hidden form for edit functionality -->
+                  <div class="flashcard-actions">
+                      <form action="/edit-flashcard" method="POST">
+                          <input type="hidden" name="flashcardId" value="<%= flashcards[currentCardIndex].id %>">
+                          <input type="hidden" name="front" value="<%= flashcards[currentCardIndex].front %>">
+                          <input type="hidden" name="back" value="<%= flashcards[currentCardIndex].back %>">
+                          <input type="hidden" name="category" value="<%= flashcards[currentCardIndex].category %>">
+                          <input type="hidden" name="difficulty" value="<%= flashcards[currentCardIndex].difficulty %>">
+                      </form>
                   </div>
-                  <p>Click to flip</p>
               </div>
-              <div class="flashcard-back">
-                <h3>ANSWER</h3>
-                <p><%= flashcards[currentCardIndex].back %></p>
-                <div class="flashcard-actions">
-                    <form action="/edit-flashcard" method="POST">
-                        <input type="hidden" name="flashcardId" value="<%= flashcards[currentCardIndex].id %>">
-                        <input type="hidden" name="front" value="<%= flashcards[currentCardIndex].front %>">
-                        <input type="hidden" name="back" value="<%= flashcards[currentCardIndex].back %>">
-                        <input type="hidden" name="category" value="<%= flashcards[currentCardIndex].category %>">
-                        <input type="hidden" name="difficulty" value="<%= flashcards[currentCardIndex].difficulty %>">
-                    </form>
+            </div>
+            
+            <!-- Study mode navigation controls -->
+            <div class="study-controls">
+                <div class="navigation-row">
+                    <!-- Handle category-filtered vs unfiltered navigation -->
+                    <% if (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') { %>
+                        <a href="/study/previous?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
+                        <a href="/study/next?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
+                    <% } else { %>
+                        <a href="/study/previous?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
+                        <a href="/study/next?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
+                    <% } %>
+                </div>
+                <div class="exit-row">
+                    <a href="/" class="btn exit-study-btn">Exit Study Mode</a>
                 </div>
             </div>
-          </div>
-          <div class="study-controls">
-              <div class="navigation-row">
-                  <% if (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') { %>
-                      <a href="/study/previous?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
-                      <a href="/study/next?category=<%= categoryFilter %>&currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
-                  <% } else { %>
-                      <a href="/study/previous?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn previous-btn">Previous</a>
-                      <a href="/study/next?currentIndex=<%= currentCardIndex %>" class="btn study-nav-btn next-btn">Next</a>
-                  <% } %>
-              </div>
-              <div class="exit-row">
-                  <a href="/" class="btn exit-study-btn">Exit Study Mode</a>
-              </div>
-          </div>
-      </div>
-  <% } %>
-
-  <!-- CREATE FLASHCARD SECTION -->
-  <section class="create-flashcard">
-      <h2>Create New Flashcard</h2>
-      <form action="/flashcards" method="POST" class="flashcard-form <%= (errors && errors.length > 0) ? 'submitted' : '' %>">
-          <div class="form-top-row">
-              <div class="form-group">
-                  <label for="front">Question/Term</label>
-                  <textarea
-                      name="front"
-                      placeholder="Enter your question or term"
-                      class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
-                  ><%= typeof front !== 'undefined' ? front : '' %></textarea>
-                  <% if (errors && errors.some(e => e.includes('Question/Term'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Question/Term')) %>
-                      </span>
-                  <% } %>
-              </div>
-              <div class="form-group">
-                  <label for="back">Answer/Definition</label>
-                  <textarea
-                      name="back"
-                      placeholder="Enter the answer or definition"
-                      class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
-                  ><%= typeof back !== 'undefined' ? back : '' %></textarea>
-                  <% if (errors && errors.some(e => e.includes('Answer/Definition'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Answer/Definition')) %>
-                      </span>
-                  <% } %>
-              </div>
-          </div>
-          <div class="form-middle-row">
-              <div class="form-group">
-                  <label for="category">Category</label>
-                  <input
-                      type="text"
-                      name="category"
-                      placeholder="e.g. JavaScript, Biology"
-                      class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
-                      value="<%= typeof category !== 'undefined' ? category : '' %>"
-                  >
-                  <% if (errors && errors.some(e => e.includes('Category'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Category')) %>
-                      </span>
-                  <% } %>
-              </div>
-              <div class="form-group">
-                  <label for="difficulty">Difficulty Level</label>
-                  <select name="difficulty">
-                      <% [1,2,3,4,5].forEach(num => { %>
-                          <option value="<%= num %>" <%= (typeof difficulty !== 'undefined' && difficulty == num) ? 'selected' : '' %>>Level <%= num %></option>
-                      <% }); %>
-                  </select>
-              </div>
-          </div>
-          <div class="form-bottom-row">
-              <button type="submit" class="btn add-flashcard-btn">Add Flashcard</button>
-          </div>
-      </form>
-  </section>
-
-  <!-- QUICK ACTIONS SECTION -->
-  <div class="quick-actions">
-      <div class="action-card">
-          <h3>Search Flashcards</h3>
-          <form action="/" method="GET">
-              <div class="form-group">
-                  <input type="text" name="search" placeholder="Search terms or answers..." value="<%= typeof search !== 'undefined' ? search : '' %>">
-              </div>
-              <div class="action-buttons">
-                  <button type="submit" class="btn">Search</button>
-                  <% if (typeof search !== 'undefined' && search) { %>
-                      <a href="/" class="clear-btn">Clear</a>
-                  <% } %>
-              </div>
-          </form>
-      </div>
-      <div class="action-card">
-          <h3>Filter Flashcards</h3>
-          <form action="/" method="GET">
-              <div class="form-group">
-                  <input type="text" name="category" placeholder="Filter by category" value="<%= typeof categoryFilter !== 'undefined' ? categoryFilter : '' %>">
-              </div>
-              <div class="action-buttons">
-                  <button type="submit" class="btn">Apply Filter</button>
-                  <% if (typeof categoryFilter !== 'undefined') { %>
-                      <a href="/" class="clear-btn">Clear</a>
-                  <% } %>
-              </div>
-          </form>
-      </div>
-      <div class="action-card">
-        <h3>Study Mode</h3>
-        <form action="/study" method="GET">
-            <div class="form-group">
-                <input type="text" name="category" placeholder="Enter 'All' or a specific category" value="<%= (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') ? categoryFilter : '' %>">
+        </div>
+    <% } %>
+  
+    <!-- *********************** -->
+    <!-- CREATE FLASHCARD SECTION -->
+    <!-- *********************** -->
+    <section class="create-flashcard">
+        <h2>Create New Flashcard</h2>
+        <!-- Flashcard creation form with error handling -->
+        <form action="/flashcards" method="POST" class="flashcard-form <%= (errors && errors.length > 0) ? 'submitted' : '' %>">
+            <div class="form-top-row">
+                <!-- Front/Question field -->
+                <div class="form-group">
+                    <label for="front">Question/Term</label>
+                    <textarea
+                        name="front"
+                        placeholder="Enter your question or term"
+                        class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
+                    ><%= typeof front !== 'undefined' ? front : '' %></textarea>
+                    <!-- Show error if exists -->
+                    <% if (errors && errors.some(e => e.includes('Question/Term'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Question/Term')) %>
+                        </span>
+                    <% } %>
+                </div>
+                
+                <!-- Back/Answer field -->
+                <div class="form-group">
+                    <label for="back">Answer/Definition</label>
+                    <textarea
+                        name="back"
+                        placeholder="Enter the answer or definition"
+                        class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
+                    ><%= typeof back !== 'undefined' ? back : '' %></textarea>
+                    <% if (errors && errors.some(e => e.includes('Answer/Definition'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Answer/Definition')) %>
+                        </span>
+                    <% } %>
+                </div>
             </div>
-            <button type="submit" class="btn study-btn">Start Studying</button>
+            
+            <div class="form-middle-row">
+                <!-- Category field -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input
+                        type="text"
+                        name="category"
+                        placeholder="e.g. JavaScript, Biology"
+                        class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
+                        value="<%= typeof category !== 'undefined' ? category : '' %>"
+                    >
+                    <% if (errors && errors.some(e => e.includes('Category'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Category')) %>
+                        </span>
+                    <% } %>
+                </div>
+                
+                <!-- Difficulty selection -->
+                <div class="form-group">
+                    <label for="difficulty">Difficulty Level</label>
+                    <select name="difficulty">
+                        <% [1,2,3,4,5].forEach(num => { %>
+                            <option value="<%= num %>" <%= (typeof difficulty !== 'undefined' && difficulty == num) ? 'selected' : '' %>>Level <%= num %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Submit button -->
+            <div class="form-bottom-row">
+                <button type="submit" class="btn add-flashcard-btn">Add Flashcard</button>
+            </div>
         </form>
-    </div>
-  </div>
-
-  <!-- EDIT FLASHCARD SECTION -->
-  <% if (typeof editingFlashcard !== 'undefined' && editingFlashcard) { %>
-      <div class="controls-container">
-          <form action="/flashcards/<%= editingFlashcard.id %>?_method=PUT" method="POST" class="control-form">
-              <h3>Edit Flashcard</h3>
+    </section>
+  
+    <!-- *********************** -->
+    <!-- QUICK ACTIONS SECTION -->
+    <!-- *********************** -->
+    <div class="quick-actions">
+        <!-- Search card -->
+        <div class="action-card">
+            <h3>Search Flashcards</h3>
+            <form action="/" method="GET">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Search terms or answers..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" class="btn">Search</button>
+                    <!-- Clear button appears only when search is active -->
+                    <% if (typeof search !== 'undefined' && search) { %>
+                        <a href="/" class="clear-btn">Clear</a>
+                    <% } %>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Filter card -->
+        <div class="action-card">
+            <h3>Filter Flashcards</h3>
+            <form action="/" method="GET">
+                <div class="form-group">
+                    <input type="text" name="category" placeholder="Filter by category" value="<%= typeof categoryFilter !== 'undefined' ? categoryFilter : '' %>">
+                </div>
+                <div class="action-buttons">
+                    <button type="submit" class="btn">Apply Filter</button>
+                    <% if (typeof categoryFilter !== 'undefined') { %>
+                        <a href="/" class="clear-btn">Clear</a>
+                    <% } %>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Study mode card -->
+        <div class="action-card">
+          <h3>Study Mode</h3>
+          <form action="/study" method="GET">
               <div class="form-group">
-                  <label for="front">Front</label>
-                  <textarea
-                      name="front"
-                      required
-                      class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
-                  ><%= editingFlashcard.front || '' %></textarea>
-                  <% if (errors && errors.some(e => e.includes('Question/Term'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Question/Term')) %>
-                      </span>
-                  <% } %>
+                  <input type="text" name="category" placeholder="Enter 'All' or a specific category" value="<%= (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all') ? categoryFilter : '' %>">
               </div>
-              <div class="form-group">
-                  <label for="back">Back</label>
-                  <textarea
-                      name="back"
-                      required
-                      class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
-                  ><%= editingFlashcard.back || '' %></textarea>
-                  <% if (errors && errors.some(e => e.includes('Answer/Definition'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Answer/Definition')) %>
-                      </span>
-                  <% } %>
-              </div>
-              <div class="form-group">
-                  <label for="category">Category</label>
-                  <input
-                      type="text"
-                      name="category"
-                      class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
-                      value="<%= editingFlashcard.category || '' %>"
-                  >
-                  <% if (errors && errors.some(e => e.includes('Category'))) { %>
-                      <span class="error-message">
-                          <%= errors.find(e => e.includes('Category')) %>
-                      </span>
-                  <% } %>
-              </div>
-              <div class="form-group">
-                  <label for="difficulty">Difficulty Level</label>
-                  <div class="difficulty-icons">
-                      <% for (let i = 1; i <= 5; i++) { %>
-                          <div class="difficulty-icon <%= i <= editingFlashcard.difficulty ? 'level-' + editingFlashcard.difficulty : '' %>"
-                               data-level="Level <%= i %>"></div>
-                      <% } %>
-                  </div>
-                  <select name="difficulty">
-                      <% [1,2,3,4,5].forEach(num => { %>
-                          <option value="<%= num %>" <%= editingFlashcard.difficulty == num ? 'selected' : '' %>>
-                              Level <%= num %> - 
-                              <%= num === 1 ? 'Easy' : 
-                                 num === 2 ? 'Moderate' : 
-                                 num === 3 ? 'Medium' : 
-                                 num === 4 ? 'Hard' : 'Very Hard' %>
-                          </option>
-                      <% }); %>
-                  </select>
-              </div>
-              <button type="submit" class="btn">Update Flashcard</button>
-              <a href="/" class="clear-btn">Cancel</a>
+              <button type="submit" class="btn study-btn">Start Studying</button>
           </form>
       </div>
-  <% } %>
-
-  <!-- FLASHCARD DISPLAY SECTION -->
-  <% if ((typeof search !== 'undefined' && search) || (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all')) { %>
-      <% if (typeof flashcards !== 'undefined' && flashcards.length === 0) { %>
-          <p class="no-results">No flashcards found matching your criteria.</p>
-      <% } else if (typeof flashcards !== 'undefined' && !studyMode) { %>
-          <div class="flashcard-grid">
-              <% flashcards.forEach(flashcard => { %>
-                  <div class="flashcard-preview">
-                      <div class="flashcard-preview-front">
-                          <% if (flashcard.category) { %>
-                              <h4 class="category-header"><%= flashcard.category %></h4>
-                          <% } %>
-                          <h3><%= flashcard.front %></h3>
-                          <div class="flashcard-actions">
-                              <form action="/edit-flashcard" method="POST">
-                                  <input type="hidden" name="flashcardId" value="<%= flashcard.id %>">
-                                  <input type="hidden" name="front" value="<%= flashcard.front %>">
-                                  <input type="hidden" name="back" value="<%= flashcard.back %>">
-                                  <input type="hidden" name="category" value="<%= flashcard.category %>">
-                                  <input type="hidden" name="difficulty" value="<%= flashcard.difficulty %>">
-                                  <button type="submit" class="btn edit-btn">Edit</button>
-                              </form>
-                              <form action="/flashcards/<%= flashcard.id %>?_method=DELETE" method="POST">
-                                  <button type="submit" class="btn delete-btn">Delete</button>
-                              </form>
-                          </div>
-                      </div>
-                      <div class="difficulty-container">
-                          <div class="difficulty-icons">
-                              <% for (let i = 1; i <= 5; i++) { %>
-                                  <div class="difficulty-icon <%= i <= flashcard.difficulty ? 'level-' + flashcard.difficulty : '' %>"
-                                       data-level="Level <%= i %>"></div>
-                              <% } %>
-                          </div>
-                          <div class="difficulty-label level-<%= flashcard.difficulty %>">
-                              <% if (flashcard.difficulty === 1) { %>
-                                  Easy
-                              <% } else if (flashcard.difficulty === 2) { %>
-                                  Moderate
-                              <% } else if (flashcard.difficulty === 3) { %>
-                                  Medium
-                              <% } else if (flashcard.difficulty === 4) { %>
-                                  Hard
-                              <% } else { %>
-                                  Very Hard
-                              <% } %>
-                          </div>
-                      </div>
-                  </div>
-              <% }) %>
-          </div>
-          <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
-              <div class="pagination">
-                  <% if (typeof hasPreviousPage !== 'undefined' && hasPreviousPage) { %>
-                      <a href="/?page=<%= currentPage - 1 %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
-                          <button>&laquo; Prev</button>
-                      </a>
-                  <% } %>
-                  <% for (let i = 1; i <= totalPages; i++) { %>
-                      <a href="/?page=<%= i %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
-                          <button class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
-                      </a>
-                  <% } %>
-                  <% if (typeof hasNextPage !== 'undefined' && hasNextPage) { %>
-                      <a href="/?page=<%= currentPage + 1 %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
-                          <button>Next &raquo;</button>
-                      </a>
-                  <% } %>
-              </div>
-          <% } %>
-      <% } %>
-  <% } else if (typeof flashcards !== 'undefined' && flashcards.length > 0) { %>
-      <div class="search-prompt">
-          <p>Use the search or filter option above to display flashcards.</p>
-      </div>
-  <% } else { %>
-      <p class="no-results">No flashcards found. Create your first flashcard above!</p>
-  <% } %>
-</div>
-
-<%- include('partials/footer') %>
+    </div>
+  
+    <!-- *********************** -->
+    <!-- EDIT FLASHCARD SECTION -->
+    <!-- *********************** -->
+    <% if (typeof editingFlashcard !== 'undefined' && editingFlashcard) { %>
+        <div class="controls-container">
+            <!-- Edit form (similar to create but with existing values) -->
+            <form action="/flashcards/<%= editingFlashcard.id %>?_method=PUT" method="POST" class="control-form">
+                <h3>Edit Flashcard</h3>
+                <!-- Front/Question field -->
+                <div class="form-group">
+                    <label for="front">Front</label>
+                    <textarea
+                        name="front"
+                        required
+                        class="<%= errors && errors.some(e => e.includes('Question/Term')) ? 'error-border' : '' %>"
+                    ><%= editingFlashcard.front || '' %></textarea>
+                    <% if (errors && errors.some(e => e.includes('Question/Term'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Question/Term')) %>
+                        </span>
+                    <% } %>
+                </div>
+                
+                <!-- Back/Answer field -->
+                <div class="form-group">
+                    <label for="back">Back</label>
+                    <textarea
+                        name="back"
+                        required
+                        class="<%= errors && errors.some(e => e.includes('Answer/Definition')) ? 'error-border' : '' %>"
+                    ><%= editingFlashcard.back || '' %></textarea>
+                    <% if (errors && errors.some(e => e.includes('Answer/Definition'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Answer/Definition')) %>
+                        </span>
+                    <% } %>
+                </div>
+                
+                <!-- Category field -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input
+                        type="text"
+                        name="category"
+                        class="<%= errors && errors.some(e => e.includes('Category')) ? 'error-border' : '' %>"
+                        value="<%= editingFlashcard.category || '' %>"
+                    >
+                    <% if (errors && errors.some(e => e.includes('Category'))) { %>
+                        <span class="error-message">
+                            <%= errors.find(e => e.includes('Category')) %>
+                        </span>
+                    <% } %>
+                </div>
+                
+                <!-- Difficulty selection -->
+                <div class="form-group">
+                    <label for="difficulty">Difficulty Level</label>
+                    <!-- Visual difficulty indicator -->
+                    <div class="difficulty-icons">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <div class="difficulty-icon <%= i <= editingFlashcard.difficulty ? 'level-' + editingFlashcard.difficulty : '' %>"
+                                 data-level="Level <%= i %>"></div>
+                        <% } %>
+                    </div>
+                    <!-- Difficulty dropdown -->
+                    <select name="difficulty">
+                        <% [1,2,3,4,5].forEach(num => { %>
+                            <option value="<%= num %>" <%= editingFlashcard.difficulty == num ? 'selected' : '' %>>
+                                Level <%= num %> - 
+                                <%= num === 1 ? 'Easy' : 
+                                   num === 2 ? 'Moderate' : 
+                                   num === 3 ? 'Medium' : 
+                                   num === 4 ? 'Hard' : 'Very Hard' %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                
+                <!-- Form actions -->
+                <button type="submit" class="btn">Update Flashcard</button>
+                <a href="/" class="clear-btn">Cancel</a>
+            </form>
+        </div>
+    <% } %>
+  
+    <!-- *********************** -->
+    <!-- FLASHCARD DISPLAY SECTION -->
+    <!-- *********************** -->
+    <% if ((typeof search !== 'undefined' && search) || (typeof categoryFilter !== 'undefined' && categoryFilter !== 'all')) { %>
+        <!-- No results message -->
+        <% if (typeof flashcards !== 'undefined' && flashcards.length === 0) { %>
+            <p class="no-results">No flashcards found matching your criteria.</p>
+        <% } else if (typeof flashcards !== 'undefined' && !studyMode) { %>
+            <!-- Flashcard grid -->
+            <div class="flashcard-grid">
+                <% flashcards.forEach(flashcard => { %>
+                    <div class="flashcard-preview">
+                        <div class="flashcard-preview-front">
+                            <% if (flashcard.category) { %>
+                                <h4 class="category-header"><%= flashcard.category %></h4>
+                            <% } %>
+                            <h3><%= flashcard.front %></h3>
+                            <!-- Flashcard actions (edit/delete) -->
+                            <div class="flashcard-actions">
+                                <form action="/edit-flashcard" method="POST">
+                                    <input type="hidden" name="flashcardId" value="<%= flashcard.id %>">
+                                    <input type="hidden" name="front" value="<%= flashcard.front %>">
+                                    <input type="hidden" name="back" value="<%= flashcard.back %>">
+                                    <input type="hidden" name="category" value="<%= flashcard.category %>">
+                                    <input type="hidden" name="difficulty" value="<%= flashcard.difficulty %>">
+                                    <button type="submit" class="btn edit-btn">Edit</button>
+                                </form>
+                                <form action="/flashcards/<%= flashcard.id %>?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn delete-btn">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Difficulty indicator -->
+                        <div class="difficulty-container">
+                            <div class="difficulty-icons">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <div class="difficulty-icon <%= i <= flashcard.difficulty ? 'level-' + flashcard.difficulty : '' %>"
+                                         data-level="Level <%= i %>"></div>
+                                <% } %>
+                            </div>
+                            <div class="difficulty-label level-<%= flashcard.difficulty %>">
+                                <% if (flashcard.difficulty === 1) { %>
+                                    Easy
+                                <% } else if (flashcard.difficulty === 2) { %>
+                                    Moderate
+                                <% } else if (flashcard.difficulty === 3) { %>
+                                    Medium
+                                <% } else if (flashcard.difficulty === 4) { %>
+                                    Hard
+                                <% } else { %>
+                                    Very Hard
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            
+            <!-- Pagination controls -->
+            <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+                <div class="pagination">
+                    <!-- Previous page link -->
+                    <% if (typeof hasPreviousPage !== 'undefined' && hasPreviousPage) { %>
+                        <a href="/?page=<%= currentPage - 1 %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
+                            <button>&laquo; Prev</button>
+                        </a>
+                    <% } %>
+                    
+                    <!-- Page number links -->
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <a href="/?page=<%= i %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
+                            <button class="<%= i === currentPage ? 'active' : '' %>"><%= i %></button>
+                        </a>
+                    <% } %>
+                    
+                    <!-- Next page link -->
+                    <% if (typeof hasNextPage !== 'undefined' && hasNextPage) { %>
+                        <a href="/?page=<%= currentPage + 1 %><%= typeof search !== 'undefined' && search ? '&search=' + search : '' %><%= typeof categoryFilter !== 'undefined' && categoryFilter !== 'all' ? '&category=' + categoryFilter : '' %>">
+                            <button>Next &raquo;</button>
+                        </a>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } %>
+    <% } else if (typeof flashcards !== 'undefined' && flashcards.length > 0) { %>
+        <!-- Prompt to search/filter when flashcards exist but none are filtered -->
+        <div class="search-prompt">
+            <p>Use the search or filter option above to display flashcards.</p>
+        </div>
+    <% } else { %>
+        <!-- Message when no flashcards exist at all -->
+        <p class="no-results">No flashcards found. Create your first flashcard above!</p>
+    <% } %>
+  </div>
+  
+  <!-- Include footer partial -->
+  <%- include('partials/footer') %>

@@ -1,205 +1,236 @@
 /* Base Styles */
+/* Reset and base styles for all elements */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;  /* Include padding and border in element's total width/height */
+  margin: 0;              /* Remove default margins */
+  padding: 0;             /* Remove default padding */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Set default font stack */
 }
 
+/* Body styles */
 body {
-  background-color: #f5f7fa;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
+  background-color: #f5f7fa;  /* Light gray background */
+  color: #333;               /* Dark gray text color */
+  line-height: 1.6;          /* Improved line spacing for readability */
+  padding: 20px;             /* Add padding around content */
 }
 
+/* Heading styles */
 h1, h2, h3 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
+  color: #2c3e50;           /* Dark blue-gray color for headings */
+  margin-bottom: 1rem;      /* Consistent bottom margin */
 }
 
+/* Header section styles */
 header {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eaeaea;
+  text-align: center;       /* Center align header content */
+  margin-bottom: 2rem;      /* Space below header */
+  padding-bottom: 1rem;     /* Padding at bottom */
+  border-bottom: 1px solid #eaeaea; /* Subtle bottom border */
 }
 
+/* Footer section styles */
 footer {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eaeaea;
+  text-align: center;       /* Center align footer content */
+  margin-top: 2rem;        /* Space above footer */
+  padding-top: 1rem;       /* Padding at top */
+  border-top: 1px solid #eaeaea; /* Subtle top border */
 }
 
+/* Main container for content */
 .main-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 1200px;       /* Maximum width of content */
+  margin: 0 auto;          /* Center container horizontally */
+  padding: 20px;           /* Inner spacing */
 }
 
+/* Error message container */
 .error-container {
-  background-color: #ffebee;
-  border-left: 4px solid #f44336;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 4px;
+  background-color: #ffebee; /* Light red background */
+  border-left: 4px solid #f44336; /* Red left border */
+  padding: 1rem;           /* Inner spacing */
+  margin: 1rem 0;          /* Outer spacing */
+  border-radius: 4px;      /* Rounded corners */
 }
 
+/* List of errors */
 .error-list {
-  list-style-type: none;
+  list-style-type: none;   /* Remove bullet points */
 }
 
+/* Individual error item */
 .error-item {
-  color: #f44336;
-  padding: 0.3rem 0;
+  color: #f44336;         /* Red text color */
+  padding: 0.3rem 0;      /* Vertical spacing */
 }
 
+/* Flashcard creation section */
 .create-flashcard {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  background: white;       /* White background */
+  padding: 2rem;           /* Inner spacing */
+  border-radius: 8px;      /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-bottom: 2rem;     /* Space below */
 }
 
+/* Flashcard form layout */
 .flashcard-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: flex;           /* Flex layout */
+  flex-direction: column;  /* Vertical stacking */
+  gap: 1.5rem;             /* Space between form groups */
 }
 
+/* Form row layouts */
 .form-top-row, .form-middle-row {
-  display: flex;
-  gap: 1.5rem;
+  display: flex;           /* Flex layout */
+  gap: 1.5rem;             /* Space between form groups */
 }
 
+/* Form group styling */
 .form-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  flex: 1;                 /* Take up available space */
+  display: flex;           /* Flex layout */
+  flex-direction: column;  /* Vertical stacking */
 }
 
+/* Form label styling */
 .form-group label {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  margin-bottom: 0.5rem;   /* Space below label */
+  font-weight: 600;        /* Semi-bold text */
 }
 
+/* Form input elements */
 .form-group textarea,
 .form-group input,
 .form-group select {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 0.75rem;        /* Inner spacing */
+  border: 1px solid #ddd;  /* Light gray border */
+  border-radius: 4px;      /* Slightly rounded corners */
+  font-size: 1rem;         /* Standard font size */
 }
 
+/* Textarea specific styles */
 .form-group textarea {
-  min-height: 100px;
-  resize: vertical;
+  min-height: 100px;       /* Minimum height */
+  resize: vertical;        /* Allow vertical resizing only */
 }
 
+/* Form action buttons row */
 .form-bottom-row {
-  display: flex;
-  justify-content: flex-end;
+  display: flex;           /* Flex layout */
+  justify-content: flex-end; /* Align buttons to right */
 }
 
+/* Error state for form fields */
 .error-border {
-  border: 2px solid #ff0000 !important;
+  border: 2px solid #ff0000 !important; /* Red border for errors */
 }
 
+/* Error message text */
 .error-message {
-  color: #ff0000;
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
-  display: block;
+  color: #ff0000;          /* Red text */
+  font-size: 0.8rem;       /* Smaller text */
+  margin-top: 0.25rem;     /* Space above */
+  display: block;          /* Display as block element */
 }
 
+/* Quick actions grid */
 .quick-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  display: grid;                          /* Grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 1.5rem;                           /* Space between cards */
+  margin-bottom: 2rem;                   /* Space below */
 }
 
+/* Quick action card styling */
 .action-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: white;       /* White background */
+  padding: 1.5rem;         /* Inner spacing */
+  border-radius: 8px;      /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
+/* Action buttons container */
 .action-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  display: flex;           /* Flex layout */
+  gap: 1rem;               /* Space between buttons */
+  margin-top: 1rem;        /* Space above buttons */
 }
 
+/* Flashcard grid layout */
 .flashcard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  display: grid;                          /* Grid layout */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 1.5rem;                           /* Space between cards */
+  margin-bottom: 2rem;                   /* Space below */
 }
 
+/* Flashcard preview styling */
 .flashcard-preview {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  transition: transform 0.2s;
+  background: white;       /* White background */
+  border-radius: 8px;      /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 1.5rem;         /* Inner spacing */
+  transition: transform 0.2s; /* Smooth hover effect */
 }
 
+/* Flashcard hover effect */
 .flashcard-preview:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px); /* Lift card slightly */
 }
 
+/* Flashcard action buttons */
 .flashcard-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  display: flex;           /* Flex layout */
+  gap: 1rem;               /* Space between buttons */
+  margin-top: 1rem;        /* Space above buttons */
 }
 
+/* Flashcard category styling */
 .flashcard-category {
-  font-style: italic;
-  color: #7f8c8d;
-  margin: 0.5rem 0;
+  font-style: italic;      /* Italic text */
+  color: #7f8c8d;         /* Gray text color */
+  margin: 0.5rem 0;       /* Vertical spacing */
 }
 
 /* Difficulty Indicator Styles */
 .difficulty-container {
-  margin-top: 0.8rem;
+  margin-top: 0.8rem;     /* Space above */
 }
 
+/* Difficulty icons container */
 .difficulty-icons {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 0.3rem;
+  display: flex;           /* Flex layout */
+  gap: 6px;                /* Space between icons */
+  margin-bottom: 0.3rem;   /* Space below */
 }
 
+/* Individual difficulty icon */
 .difficulty-icon {
-  width: 20px;
-  height: 20px;
-  background-color: #eee;
-  border-radius: 50%;
-  position: relative;
+  width: 20px;             /* Fixed width */
+  height: 20px;            /* Fixed height */
+  background-color: #eee;  /* Default gray background */
+  border-radius: 50%;      /* Circular shape */
+  position: relative;      /* Positioning context */
 }
 
 /* Color-coded difficulty levels */
-.difficulty-icon.level-1 { background: #2ecc71; }  /* Easy */
-.difficulty-icon.level-2 { background: #4bc272; }  /* Moderate */
-.difficulty-icon.level-3 { background: #f39c12; }  /* Medium */
-.difficulty-icon.level-4 { background: #e67e22; }  /* Hard */
-.difficulty-icon.level-5 { background: #e74c3c; }  /* Very Hard */
+.difficulty-icon.level-1 { background: #2ecc71; }  /* Easy - green */
+.difficulty-icon.level-2 { background: #4bc272; }  /* Moderate - light green */
+.difficulty-icon.level-3 { background: #f39c12; }  /* Medium - orange */
+.difficulty-icon.level-4 { background: #e67e22; }  /* Hard - dark orange */
+.difficulty-icon.level-5 { background: #e74c3c; }  /* Very Hard - red */
 
+/* Difficulty label text */
 .difficulty-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  display: inline-block;
+  font-size: 0.85rem;      /* Smaller text */
+  font-weight: 600;        /* Semi-bold */
+  padding: 0.2rem 0.5rem;  /* Inner spacing */
+  border-radius: 4px;      /* Rounded corners */
+  display: inline-block;   /* Inline block display */
 }
 
+/* Difficulty label color variations */
 .difficulty-label.level-1 { 
   color: #2ecc71; 
   background-color: rgba(46, 204, 113, 0.1);
@@ -226,137 +257,152 @@ footer {
   border: 1px solid rgba(231, 76, 60, 0.3);
 }
 
-/* Form-specific styles */
+/* Form-specific difficulty styles */
 .form-group .difficulty-icons {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;   /* Space below */
 }
 
 .form-group .difficulty-icon {
-  width: 24px;
-  height: 24px;
+  width: 24px;             /* Slightly larger icons */
+  height: 24px;            /* Slightly larger icons */
 }
 
 .form-group .difficulty-label {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  margin-bottom: 0.5rem;   /* Space below */
+  font-size: 0.9rem;       /* Slightly larger text */
 }
 
 /* Study Mode Styles */
 .study-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  text-align: center;
+  max-width: 800px;        /* Fixed maximum width */
+  margin: 2rem auto;       /* Centered with space */
+  text-align: center;      /* Center align content */
 }
 
+/* Flashcard container in study mode */
 .flashcard {
-  width: 100%;
-  min-height: 400px;
-  perspective: 1000px;
-  margin: 2rem auto;
-  cursor: pointer;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;             /* Full width */
+  min-height: 400px;       /* Minimum height */
+  perspective: 1000px;     /* 3D perspective */
+  margin: 2rem auto;       /* Centered with space */
+  cursor: pointer;         /* Pointer cursor */
+  position: relative;      /* Positioning context */
+  transform-style: preserve-3d; /* 3D transform */
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth flip animation */
 }
 
+/* Flipped state */
 .flashcard.flipped {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg); /* Rotate 180 degrees */
 }
 
+/* Front and back of flashcard */
 .flashcard-front, .flashcard-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  padding: 3rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: absolute;      /* Absolute positioning */
+  width: 100%;             /* Full width */
+  height: 100%;            /* Full height */
+  backface-visibility: hidden; /* Hide back side when flipped */
+  padding: 3rem;           /* Inner spacing */
+  box-sizing: border-box;  /* Include padding in dimensions */
+  display: flex;           /* Flex layout */
+  flex-direction: column;  /* Vertical stacking */
+  justify-content: center; /* Vertical centering */
+  align-items: center;     /* Horizontal centering */
+  border-radius: 12px;     /* Rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Shadow */
 }
 
+/* Front side styling */
 .flashcard-front {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  font-size: 30px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Gradient background */
+  font-size: 30px;         /* Larger text */
 }
 
+/* Back side styling */
 .flashcard-back {
-  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-  transform: rotateY(180deg);
-  font-size: 30px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); /* Different gradient */
+  transform: rotateY(180deg); /* Initially flipped */
+  font-size: 30px;         /* Larger text */
 }
 
+/* Study mode controls */
 .study-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  display: flex;           /* Flex layout */
+  flex-direction: column;  /* Vertical stacking */
+  align-items: center;     /* Center horizontally */
+  gap: 1rem;               /* Space between elements */
+  margin-top: 2rem;        /* Space above */
 }
 
+/* Navigation buttons row */
 .navigation-row {
-  display: flex;
-  gap: 1rem;
+  display: flex;           /* Flex layout */
+  gap: 1rem;               /* Space between buttons */
 }
 
+/* Exit button row */
 .exit-row {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  width: 100%;            /* Full width */
+  display: flex;           /* Flex layout */
+  justify-content: center; /* Center horizontally */
 }
 
+/* Button color variations */
 .previous-btn {
-  background-color: #f39c12;
+  background-color: #f39c12; /* Orange */
 }
 
 .next-btn {
-  background-color: #2ecc71;
+  background-color: #2ecc71; /* Green */
 }
 
 .exit-study-btn {
-  background-color: #e74c3c;
-  min-width: 200px;
+  background-color: #e74c3c; /* Red */
+  min-width: 200px;        /* Minimum width */
 }
 
+/* Pagination controls */
 .pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
+  display: flex;           /* Flex layout */
+  justify-content: center; /* Center horizontally */
+  gap: 0.5rem;             /* Space between buttons */
+  margin-top: 2rem;        /* Space above */
 }
 
+/* Pagination buttons */
 .pagination button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  background: white;
-  cursor: pointer;
-  border-radius: 4px;
+  padding: 0.5rem 1rem;    /* Inner spacing */
+  border: 1px solid #ddd;  /* Light gray border */
+  background: white;       /* White background */
+  cursor: pointer;         /* Pointer cursor */
+  border-radius: 4px;      /* Rounded corners */
 }
 
+/* Active page button */
 .pagination button.active {
-  background: #3498db;
-  color: white;
-  border-color: #3498db;
+  background: #3498db;     /* Blue background */
+  color: white;            /* White text */
+  border-color: #3498db;   /* Blue border */
 }
 
+/* Base button styles */
 .btn {
-  padding: 0.75rem 1.5rem;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
+  padding: 0.75rem 1.5rem; /* Inner spacing */
+  background-color: #3498db; /* Blue background */
+  color: white;            /* White text */
+  border: none;            /* No border */
+  border-radius: 4px;      /* Rounded corners */
+  cursor: pointer;         /* Pointer cursor */
+  font-size: 1rem;         /* Standard text size */
+  transition: background-color 0.2s; /* Color transition */
 }
 
+/* Button hover state */
 .btn:hover {
-  background-color: #2980b9;
+  background-color: #2980b9; /* Darker blue */
 }
 
+/* Clear button (duplicate of .btn?) */
 .clear-btn {
   padding: 0.75rem 1.5rem;
   background-color: #3498db;
@@ -373,30 +419,34 @@ footer {
   background-color: #3498db;
 }
 
+/* Study button specific */
 .study-btn {
-  margin-top: 15px;
-  background-color: #3498db;
+  margin-top: 15px;        /* Space above */
+  background-color: #3498db; /* Blue background */
 }
 
 .study-btn:hover {
-  background-color: #2980b9;
+  background-color: #2980b9; /* Darker blue */
 }
 
+/* Search prompt text */
 .search-prompt {
-  text-align: center;
-  font-size: large;
-  font-weight: bold;
+  text-align: center;      /* Center align */
+  font-size: large;        /* Larger text */
+  font-weight: bold;      /* Bold text */
 }
 
+/* Category header text */
 .category-header {
-  color: #666;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: #666;             /* Medium gray */
+  margin-bottom: 10px;     /* Space below */
+  font-size: 1.1rem;       /* Slightly larger */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 1px;     /* Increased spacing */
 }
 
-.no-results{
-  text-align: center;
-  font-weight: bold;
+/* No results message */
+.no-results {
+  text-align: center;      /* Center align */
+  font-weight: bold;       /* Bold text */
 }
