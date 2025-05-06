@@ -165,7 +165,7 @@ export const prepareEditFlashcard = async (req, res) => {
   }
 };
 
-// Controller function to handle study session navigation
+// Controller function to handle study session and navigation
 export const startStudySession = async (req, res) => {
   const { category, currentIndex } = req.query; // Get study parameters
   const isPrevious = req.path.includes('/previous'); // Check if navigating to previous card
